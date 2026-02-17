@@ -1,0 +1,35 @@
+<template id="CrestronTouchpanel.Touchpanel.Touchpanel">
+	<div id="Touchpanel.Touchpanel">
+	 		<ch5-button sendEventOnClick="Touchpanel.StartSystemEvent" receiveStateSelected="Touchpanel.SystemRunningState">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.StopSystemEvent" receiveStateSelected="Touchpanel.StopSystemState">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.SetMuteEvent" receiveStateSelected="Touchpanel.SelectedMicMuteState">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.VolumeUpEvent" receiveStateSelected="Touchpanel.VolumeUpState">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.VolumeDownEvent" receiveStateSelected="Touchpanel.VolumeDownState">
+        	</ch5-button>
+	 		<ch5-slider sendEventOnChange="Touchpanel.SelectedMicVolumeEvent" receiveStateValue="Touchpanel.SelectedMicVolumeState">
+        	</ch5-slider>
+	 	<ch5-textinput sendEventOnChange="Touchpanel.SelectedMicIdEvent" receiveStateValue="Touchpanel.SelectedMicIdState"> </ch5-textinput>
+	 		<ch5-button sendEventOnClick="Touchpanel.SelectMic1Event" receiveStateSelected="Touchpanel.SelectMic1State">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.SelectMic2Event" receiveStateSelected="Touchpanel.SelectMic2State">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.SelectMic3Event" receiveStateSelected="Touchpanel.SelectMic3State">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.SelectMic4Event" receiveStateSelected="Touchpanel.SelectMic4State">
+        	</ch5-button>
+	 		<ch5-button sendEventOnClick="Touchpanel.SelectMic5Event" receiveStateSelected="Touchpanel.SelectMic5State">
+        	</ch5-button>
+	 		<ch5-slider sendEventOnChange="Touchpanel.Display1SourcePress" receiveStateValue="Touchpanel.Display1SourceFb">
+        	</ch5-slider>
+	 		<ch5-slider sendEventOnChange="Touchpanel.Display2SourcePress" receiveStateValue="Touchpanel.Display2SourceFb">
+        	</ch5-slider>
+	 		<ch5-slider sendEventOnChange="Touchpanel.Display3SourcePress" receiveStateValue="Touchpanel.Display3SourceFb">
+        	</ch5-slider>
+	 		<ch5-slider sendEventOnChange="Touchpanel.Display4SourcePress" receiveStateValue="Touchpanel.Display4SourceFb">
+        	</ch5-slider>
+	 </div>
+</template>

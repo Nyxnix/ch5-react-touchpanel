@@ -1,0 +1,357 @@
+{
+  "Errors": [],
+  "id": "_ctroot",
+  "name": "CrestronTouchpanel",
+  "description": "Auto-generated from src/config/touchpanelConfig.js",
+  "company": "",
+  "client": "",
+  "author": "",
+  "version": "1.0.0.0",
+  "schemaVersion": 1,
+  "subContractLinks": [],
+  "subContracts": [],
+  "specifications": [
+    {
+      "Errors": [],
+      "parentId": "_ctroot",
+      "id": "_ctspec",
+      "componentId": "_ctcomponent",
+      "instanceName": "Touchpanel",
+      "numberOfInstances": 1
+    }
+  ],
+  "components": [
+    {
+      "Errors": [],
+      "parentId": "_ctroot",
+      "id": "_ctcomponent",
+      "name": "Touchpanel",
+      "commands": [
+        {
+          "Errors": [],
+          "name": "SystemRunningState",
+          "siblingId": "_f01",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c01",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "StopSystemState",
+          "siblingId": "_f02",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c02",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectedMicMuteState",
+          "siblingId": "_f03",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c03",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "VolumeUpState",
+          "siblingId": "_f04",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c04",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "VolumeDownState",
+          "siblingId": "_f05",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c05",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectedMicVolumeState",
+          "siblingId": "_f06",
+          "dataType": 2,
+          "notes": "",
+          "id": "_c06",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectedMicIdState",
+          "siblingId": "_f07",
+          "dataType": 3,
+          "notes": "",
+          "id": "_c07",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic1State",
+          "siblingId": "_f08",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c08",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic2State",
+          "siblingId": "_f09",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c09",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic3State",
+          "siblingId": "_f10",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c10",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic4State",
+          "siblingId": "_f11",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c11",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic5State",
+          "siblingId": "_f12",
+          "dataType": 1,
+          "notes": "",
+          "id": "_c12",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "Display1SourceFb",
+          "siblingId": "_f13",
+          "dataType": 2,
+          "notes": "",
+          "id": "_c13",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "Display2SourceFb",
+          "siblingId": "_f14",
+          "dataType": 2,
+          "notes": "",
+          "id": "_c14",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "Display3SourceFb",
+          "siblingId": "_f15",
+          "dataType": 2,
+          "notes": "",
+          "id": "_c15",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        },
+        {
+          "Errors": [],
+          "name": "Display4SourceFb",
+          "siblingId": "_f16",
+          "dataType": 2,
+          "notes": "",
+          "id": "_c16",
+          "parentId": "_ctcomponent",
+          "attributeType": 0
+        }
+      ],
+      "feedbacks": [
+        {
+          "Errors": [],
+          "name": "StartSystemEvent",
+          "siblingId": "_c01",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f01",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "StopSystemEvent",
+          "siblingId": "_c02",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f02",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SetMuteEvent",
+          "siblingId": "_c03",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f03",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "VolumeUpEvent",
+          "siblingId": "_c04",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f04",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "VolumeDownEvent",
+          "siblingId": "_c05",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f05",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectedMicVolumeEvent",
+          "siblingId": "_c06",
+          "dataType": 2,
+          "notes": "",
+          "id": "_f06",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectedMicIdEvent",
+          "siblingId": "_c07",
+          "dataType": 3,
+          "notes": "",
+          "id": "_f07",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic1Event",
+          "siblingId": "_c08",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f08",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic2Event",
+          "siblingId": "_c09",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f09",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic3Event",
+          "siblingId": "_c10",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f10",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic4Event",
+          "siblingId": "_c11",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f11",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "SelectMic5Event",
+          "siblingId": "_c12",
+          "dataType": 1,
+          "notes": "",
+          "id": "_f12",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "Display1SourcePress",
+          "siblingId": "_c13",
+          "dataType": 2,
+          "notes": "",
+          "id": "_f13",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "Display2SourcePress",
+          "siblingId": "_c14",
+          "dataType": 2,
+          "notes": "",
+          "id": "_f14",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "Display3SourcePress",
+          "siblingId": "_c15",
+          "dataType": 2,
+          "notes": "",
+          "id": "_f15",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        },
+        {
+          "Errors": [],
+          "name": "Display4SourcePress",
+          "siblingId": "_c16",
+          "dataType": 2,
+          "notes": "",
+          "id": "_f16",
+          "parentId": "_ctcomponent",
+          "attributeType": 1
+        }
+      ],
+      "specifications": []
+    }
+  ],
+  "allComponentsForAllContracts": []
+}

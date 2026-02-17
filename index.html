@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>buh</title>
+    <script>
+      // Prevent early native join callbacks from throwing before CrComLib is ready.
+      (function () {
+        const queue = [];
+        const forward = (method, args) => {
+          const lib = window.CrComLib;
+          if (lib && typeof lib[method] === 'function') {
+            lib[method].apply(lib, args);
+            return true;
+          }
+          return false;
+        };
+        const makeBridgeFn = (method) =>
+          function () {
+            const args = Array.prototype.slice.call(arguments);
+            if (!forward(method, args)) queue.push({ method, args });
+          };
+
+        window.bridgeReceiveIntegerFromNative = makeBridgeFn('bridgeReceiveIntegerFromNative');
+        window.bridgeReceiveBooleanFromNative = makeBridgeFn('bridgeReceiveBooleanFromNative');
+        window.bridgeReceiveStringFromNative = makeBridgeFn('bridgeReceiveStringFromNative');
+        window.bridgeReceiveObjectFromNative = makeBridgeFn('bridgeReceiveObjectFromNative');
+
+        const replay = () => {
+          if (!window.CrComLib) return;
+          while (queue.length) {
+            const item = queue.shift();
+            forward(item.method, item.args);
+          }
+        };
+
+        const replayTimer = window.setInterval(() => {
+          if (!window.CrComLib) return;
+          replay();
+          window.clearInterval(replayTimer);
+        }, 50);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Load Crestron runtime libraries first -->
+    <script src="./index.js"></script>
+    <script src="./cr-com-lib.js"></script>
+
+    <div id="root"></div>
+    <script type="module" src="./src/main.jsx"></script>
+  </body>
+</html>

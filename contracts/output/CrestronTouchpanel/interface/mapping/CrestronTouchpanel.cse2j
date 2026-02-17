@@ -1,0 +1,111 @@
+{
+	"name": "CrestronTouchpanel",
+	"timestamp": "2026-02-17 07:09:33.045",
+	"version": "1.0.0.0",
+	"schema_version": 1,
+	"extra_value": "Auto-generated from src/config/touchpanelConfig.js",
+	"signals": {
+		"states": {
+			"boolean": {
+				"1": {
+					"1": "Touchpanel.SystemRunningState",
+					"2": "Touchpanel.StopSystemState",
+					"3": "Touchpanel.SelectedMicMuteState",
+					"4": "Touchpanel.VolumeUpState",
+					"5": "Touchpanel.VolumeDownState",
+					"6": "Touchpanel.SelectMic1State",
+					"7": "Touchpanel.SelectMic2State",
+					"8": "Touchpanel.SelectMic3State",
+					"9": "Touchpanel.SelectMic4State",
+					"10": "Touchpanel.SelectMic5State"
+				}
+			},
+			"numeric": {
+				"1": {
+					"1": "Touchpanel.SelectedMicVolumeState",
+					"2": "Touchpanel.Display1SourceFb",
+					"3": "Touchpanel.Display2SourceFb",
+					"4": "Touchpanel.Display3SourceFb",
+					"5": "Touchpanel.Display4SourceFb"
+				}
+			},
+			"string": {
+				"1": {
+					"1": "Touchpanel.SelectedMicIdState"
+				}
+			}
+		},
+		"events": {
+			"boolean": {
+				"Touchpanel.StartSystemEvent": {
+					"joinId": 1,
+					"smartObjectId": 1
+				},
+				"Touchpanel.StopSystemEvent": {
+					"joinId": 2,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SetMuteEvent": {
+					"joinId": 3,
+					"smartObjectId": 1
+				},
+				"Touchpanel.VolumeUpEvent": {
+					"joinId": 4,
+					"smartObjectId": 1
+				},
+				"Touchpanel.VolumeDownEvent": {
+					"joinId": 5,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SelectMic1Event": {
+					"joinId": 6,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SelectMic2Event": {
+					"joinId": 7,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SelectMic3Event": {
+					"joinId": 8,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SelectMic4Event": {
+					"joinId": 9,
+					"smartObjectId": 1
+				},
+				"Touchpanel.SelectMic5Event": {
+					"joinId": 10,
+					"smartObjectId": 1
+				}
+			},
+			"numeric": {
+				"Touchpanel.SelectedMicVolumeEvent": {
+					"joinId": 1,
+					"smartObjectId": 1
+				},
+				"Touchpanel.Display1SourcePress": {
+					"joinId": 2,
+					"smartObjectId": 1
+				},
+				"Touchpanel.Display2SourcePress": {
+					"joinId": 3,
+					"smartObjectId": 1
+				},
+				"Touchpanel.Display3SourcePress": {
+					"joinId": 4,
+					"smartObjectId": 1
+				},
+				"Touchpanel.Display4SourcePress": {
+					"joinId": 5,
+					"smartObjectId": 1
+				}
+			},
+			"string": {
+				"Touchpanel.SelectedMicIdEvent": {
+					"joinId": 1,
+					"smartObjectId": 1
+				}
+			}
+		}
+	}
+}
