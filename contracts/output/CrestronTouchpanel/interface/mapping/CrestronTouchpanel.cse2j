@@ -1,111 +1,186 @@
 {
-	"name": "CrestronTouchpanel",
-	"timestamp": "2026-02-17 07:09:33.045",
-	"version": "1.0.0.0",
-	"schema_version": 1,
-	"extra_value": "Auto-generated from src/config/touchpanelConfig.js",
-	"signals": {
-		"states": {
-			"boolean": {
-				"1": {
-					"1": "Touchpanel.SystemRunningState",
-					"2": "Touchpanel.StopSystemState",
-					"3": "Touchpanel.SelectedMicMuteState",
-					"4": "Touchpanel.VolumeUpState",
-					"5": "Touchpanel.VolumeDownState",
-					"6": "Touchpanel.SelectMic1State",
-					"7": "Touchpanel.SelectMic2State",
-					"8": "Touchpanel.SelectMic3State",
-					"9": "Touchpanel.SelectMic4State",
-					"10": "Touchpanel.SelectMic5State"
-				}
-			},
-			"numeric": {
-				"1": {
-					"1": "Touchpanel.SelectedMicVolumeState",
-					"2": "Touchpanel.Display1SourceFb",
-					"3": "Touchpanel.Display2SourceFb",
-					"4": "Touchpanel.Display3SourceFb",
-					"5": "Touchpanel.Display4SourceFb"
-				}
-			},
-			"string": {
-				"1": {
-					"1": "Touchpanel.SelectedMicIdState"
-				}
-			}
-		},
-		"events": {
-			"boolean": {
-				"Touchpanel.StartSystemEvent": {
-					"joinId": 1,
-					"smartObjectId": 1
-				},
-				"Touchpanel.StopSystemEvent": {
-					"joinId": 2,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SetMuteEvent": {
-					"joinId": 3,
-					"smartObjectId": 1
-				},
-				"Touchpanel.VolumeUpEvent": {
-					"joinId": 4,
-					"smartObjectId": 1
-				},
-				"Touchpanel.VolumeDownEvent": {
-					"joinId": 5,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SelectMic1Event": {
-					"joinId": 6,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SelectMic2Event": {
-					"joinId": 7,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SelectMic3Event": {
-					"joinId": 8,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SelectMic4Event": {
-					"joinId": 9,
-					"smartObjectId": 1
-				},
-				"Touchpanel.SelectMic5Event": {
-					"joinId": 10,
-					"smartObjectId": 1
-				}
-			},
-			"numeric": {
-				"Touchpanel.SelectedMicVolumeEvent": {
-					"joinId": 1,
-					"smartObjectId": 1
-				},
-				"Touchpanel.Display1SourcePress": {
-					"joinId": 2,
-					"smartObjectId": 1
-				},
-				"Touchpanel.Display2SourcePress": {
-					"joinId": 3,
-					"smartObjectId": 1
-				},
-				"Touchpanel.Display3SourcePress": {
-					"joinId": 4,
-					"smartObjectId": 1
-				},
-				"Touchpanel.Display4SourcePress": {
-					"joinId": 5,
-					"smartObjectId": 1
-				}
-			},
-			"string": {
-				"Touchpanel.SelectedMicIdEvent": {
-					"joinId": 1,
-					"smartObjectId": 1
-				}
-			}
-		}
-	}
+  "name": "CrestronTouchpanel",
+  "timestamp": "2026-02-19 18:48:56.857",
+  "version": "1.0.0.0",
+  "schema_version": 1,
+  "extra_value": "Auto-generated from src/config/touchpanelConfig.js",
+  "signals": {
+    "states": {
+      "boolean": {
+        "1": {
+          "1": "Touchpanel.SystemRunningFb",
+          "2": "Touchpanel.StopSystemFb",
+          "3": "Touchpanel.SelectedMicMuteFb",
+          "4": "Touchpanel.VolumeUpFb",
+          "5": "Touchpanel.VolumeDownFb",
+          "6": "Touchpanel.MasterVolUpFb",
+          "7": "Touchpanel.MasterVolDownFb",
+          "8": "Touchpanel.MasterVolMuteFb",
+          "9": "Touchpanel.SelectMic1Fb",
+          "10": "Touchpanel.SelectMic2Fb",
+          "11": "Touchpanel.SelectMic3Fb",
+          "12": "Touchpanel.SelectMic4Fb",
+          "13": "Touchpanel.SelectMic5Fb",
+          "14": "Touchpanel.SelectMic6Fb",
+          "15": "Touchpanel.SelectMic7Fb",
+          "16": "Touchpanel.SelectMic8Fb",
+          "17": "Touchpanel.SelectMic9Fb",
+          "18": "Touchpanel.SelectMic10Fb"
+        }
+      },
+      "numeric": {
+        "1": {
+          "1": "Touchpanel.SelectedMicVolumeFb",
+          "2": "Touchpanel.MasterVolumeFb",
+          "3": "Touchpanel.Display1SourceFb",
+          "4": "Touchpanel.Display2SourceFb",
+          "5": "Touchpanel.Display3SourceFb",
+          "6": "Touchpanel.Display4SourceFb",
+          "7": "Touchpanel.Display5SourceFb",
+          "8": "Touchpanel.Display6SourceFb",
+          "9": "Touchpanel.Display7SourceFb",
+          "10": "Touchpanel.Display8SourceFb",
+          "11": "Touchpanel.Display9SourceFb",
+          "12": "Touchpanel.Display10SourceFb"
+        }
+      },
+      "string": {
+        "1": {
+          "1": "Touchpanel.SelectedMicIdFb"
+        }
+      }
+    },
+    "events": {
+      "boolean": {
+        "Touchpanel.StartSystemBtn": {
+          "joinId": 1,
+          "smartObjectId": 1
+        },
+        "Touchpanel.StopSystemBtn": {
+          "joinId": 2,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SetMuteBtn": {
+          "joinId": 3,
+          "smartObjectId": 1
+        },
+        "Touchpanel.VolumeUpBtn": {
+          "joinId": 4,
+          "smartObjectId": 1
+        },
+        "Touchpanel.VolumeDownBtn": {
+          "joinId": 5,
+          "smartObjectId": 1
+        },
+        "Touchpanel.MasterVolUpBtn": {
+          "joinId": 6,
+          "smartObjectId": 1
+        },
+        "Touchpanel.MasterVolDownBtn": {
+          "joinId": 7,
+          "smartObjectId": 1
+        },
+        "Touchpanel.MasterVolMuteBtn": {
+          "joinId": 8,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic1Btn": {
+          "joinId": 9,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic2Btn": {
+          "joinId": 10,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic3Btn": {
+          "joinId": 11,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic4Btn": {
+          "joinId": 12,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic5Btn": {
+          "joinId": 13,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic6Btn": {
+          "joinId": 14,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic7Btn": {
+          "joinId": 15,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic8Btn": {
+          "joinId": 16,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic9Btn": {
+          "joinId": 17,
+          "smartObjectId": 1
+        },
+        "Touchpanel.SelectMic10Btn": {
+          "joinId": 18,
+          "smartObjectId": 1
+        }
+      },
+      "numeric": {
+        "Touchpanel.SelectedMicVolumeBtn": {
+          "joinId": 1,
+          "smartObjectId": 1
+        },
+        "Touchpanel.MasterVolumeBtn": {
+          "joinId": 2,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display1SourcePress": {
+          "joinId": 3,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display2SourcePress": {
+          "joinId": 4,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display3SourcePress": {
+          "joinId": 5,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display4SourcePress": {
+          "joinId": 6,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display5SourcePress": {
+          "joinId": 7,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display6SourcePress": {
+          "joinId": 8,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display7SourcePress": {
+          "joinId": 9,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display8SourcePress": {
+          "joinId": 10,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display9SourcePress": {
+          "joinId": 11,
+          "smartObjectId": 1
+        },
+        "Touchpanel.Display10SourcePress": {
+          "joinId": 12,
+          "smartObjectId": 1
+        }
+      },
+      "string": {
+        "Touchpanel.SelectedMicIdBtn": {
+          "joinId": 1,
+          "smartObjectId": 1
+        }
+      }
+    }
+  }
 }

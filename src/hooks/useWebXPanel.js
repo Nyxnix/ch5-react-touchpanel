@@ -82,14 +82,32 @@ function resolveTokenUrl(tokenUrl) {
   return `${window.location.origin}/cws/websocket/getWebSocketToken`;
 }
 
+function isNativeTouchpanelRuntime() {
+  if (typeof window === 'undefined') return false;
+  const protocol = window.location?.protocol ?? '';
+  const pathname = window.location?.pathname ?? '';
+  const userAgent = window.navigator?.userAgent?.toLowerCase?.() ?? '';
+  return (
+    protocol === 'file:' ||
+    pathname.includes('/ROMDISK/romdisk/user/display') ||
+    userAgent.includes('crestron')
+  );
+}
+
 export default function useWebXPanel(params) {
   const [isActive, setIsActive] = useState(false);
   const [status, setStatus] = useState(defaultStatus);
 
   useEffect(() => {
     const runtimeParams = resolveRuntimeWebXPanelParams(params ?? {});
+    const nativeTouchpanelRuntime = isNativeTouchpanelRuntime();
 
     if (typeof window === 'undefined' || !window.WebXPanel?.getWebXPanel) {
+      if (nativeTouchpanelRuntime) {
+        setIsActive(true);
+        setStatus(defaultStatus);
+        return undefined;
+      }
       setStatus(
         buildDisconnectedStatus(
           'WebXPanel runtime is unavailable. Load in WebXPanel/container to connect to a processor.'
@@ -99,6 +117,11 @@ export default function useWebXPanel(params) {
     }
 
     if (isInvalidHost(runtimeParams?.host)) {
+      if (nativeTouchpanelRuntime) {
+        setIsActive(true);
+        setStatus(defaultStatus);
+        return undefined;
+      }
       setStatus(
         buildDisconnectedStatus('Processor host is not configured. Set a valid host/IP to connect.')
       );
@@ -110,17 +133,24 @@ export default function useWebXPanel(params) {
     const host = resolveWebXPanelHost(runtimeParams?.host);
     const tokenUrl = resolveTokenUrl(runtimeParams?.tokenUrl);
 
-    setIsActive(panelIsActive);
+    setIsActive(panelIsActive || nativeTouchpanelRuntime);
 
     if (!panelIsActive) {
+      if (nativeTouchpanelRuntime) {
+        setStatus(defaultStatus);
+        return undefined;
+      }
       setStatus(
         buildDisconnectedStatus('WebXPanel is inactive in this runtime, so processor connection is unavailable.')
       );
       return undefined;
     }
 
-    const eventTarget =
-      WebXPanel && typeof WebXPanel.addEventListener === 'function' ? WebXPanel : window;
+    const canUsePanelEvents =
+      WebXPanel &&
+      typeof WebXPanel.addEventListener === 'function' &&
+      typeof WebXPanel.removeEventListener === 'function';
+    const eventTarget = canUsePanelEvents ? WebXPanel : window;
 
     let hasConnected = false;
     WebXPanel.initialize(
@@ -183,23 +213,23 @@ export default function useWebXPanel(params) {
       console.log('WebXPanel CIP disconnected', event?.detail);
     };
 
-    eventTarget.addEventListener(WebXPanelEvents.CONNECT_WS, onConnectWs);
-    eventTarget.addEventListener(WebXPanelEvents.ERROR_WS, onErrorWs);
-    eventTarget.addEventListener(WebXPanelEvents.CONNECT_CIP, onConnectCip);
-    eventTarget.addEventListener(WebXPanelEvents.AUTHENTICATION_FAILED, onAuthFailed);
-    eventTarget.addEventListener(WebXPanelEvents.NOT_AUTHORIZED, onNotAuthorized);
-    eventTarget.addEventListener(WebXPanelEvents.DISCONNECT_WS, onDisconnectWs);
-    eventTarget.addEventListener(WebXPanelEvents.DISCONNECT_CIP, onDisconnectCip);
+    eventTarget?.addEventListener?.(WebXPanelEvents.CONNECT_WS, onConnectWs);
+    eventTarget?.addEventListener?.(WebXPanelEvents.ERROR_WS, onErrorWs);
+    eventTarget?.addEventListener?.(WebXPanelEvents.CONNECT_CIP, onConnectCip);
+    eventTarget?.addEventListener?.(WebXPanelEvents.AUTHENTICATION_FAILED, onAuthFailed);
+    eventTarget?.addEventListener?.(WebXPanelEvents.NOT_AUTHORIZED, onNotAuthorized);
+    eventTarget?.addEventListener?.(WebXPanelEvents.DISCONNECT_WS, onDisconnectWs);
+    eventTarget?.addEventListener?.(WebXPanelEvents.DISCONNECT_CIP, onDisconnectCip);
 
     return () => {
       window.clearTimeout(connectionTimeout);
-      eventTarget.removeEventListener(WebXPanelEvents.CONNECT_WS, onConnectWs);
-      eventTarget.removeEventListener(WebXPanelEvents.ERROR_WS, onErrorWs);
-      eventTarget.removeEventListener(WebXPanelEvents.CONNECT_CIP, onConnectCip);
-      eventTarget.removeEventListener(WebXPanelEvents.AUTHENTICATION_FAILED, onAuthFailed);
-      eventTarget.removeEventListener(WebXPanelEvents.NOT_AUTHORIZED, onNotAuthorized);
-      eventTarget.removeEventListener(WebXPanelEvents.DISCONNECT_WS, onDisconnectWs);
-      eventTarget.removeEventListener(WebXPanelEvents.DISCONNECT_CIP, onDisconnectCip);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.CONNECT_WS, onConnectWs);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.ERROR_WS, onErrorWs);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.CONNECT_CIP, onConnectCip);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.AUTHENTICATION_FAILED, onAuthFailed);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.NOT_AUTHORIZED, onNotAuthorized);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.DISCONNECT_WS, onDisconnectWs);
+      eventTarget?.removeEventListener?.(WebXPanelEvents.DISCONNECT_CIP, onDisconnectCip);
     };
   }, [params]);
 

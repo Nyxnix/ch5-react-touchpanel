@@ -6,6 +6,7 @@ const micAudioStates = new Map();
 const micListeners = new Map();
 const micCommandQueues = new Map();
 const micInFlight = new Map();
+const masterListeners = new Set();
 const systemListeners = new Set();
 const videoRouteListeners = new Set();
 const videoRouteSubscriptionIds = new Map();
@@ -13,6 +14,12 @@ const videoRouteSubscriptionIds = new Map();
 let subscriptionsInitialized = false;
 let processorSelectedMicId = null;
 let processorSystemRunning = false;
+let masterAudioState = {
+  volume: 45,
+  isMuted: false,
+  isVolUpActive: false,
+  isVolDownActive: false,
+};
 const processorVideoRoutes = Object.fromEntries(
   Object.keys(contracts.video?.displaySourceFbById ?? {}).map((displayId) => [displayId, null])
 );
@@ -69,6 +76,11 @@ function notifySystemState() {
   systemListeners.forEach((listener) => listener(processorSystemRunning));
 }
 
+function notifyMasterState() {
+  const snapshot = { ...masterAudioState };
+  masterListeners.forEach((listener) => listener(snapshot));
+}
+
 function notifyVideoRoutes() {
   const snapshot = { ...processorVideoRoutes };
   videoRouteListeners.forEach((listener) => listener(snapshot));
@@ -76,6 +88,9 @@ function notifyVideoRoutes() {
 
 function setProcessorDisplayRouteFromValue(displayId, value) {
   const sourceId = contracts.video?.sourceIdByValue?.[Number(value)] ?? null;
+  if (processorVideoRoutes[displayId] === sourceId) {
+    return;
+  }
   processorVideoRoutes[displayId] = sourceId;
   notifyVideoRoutes();
 }
@@ -114,6 +129,7 @@ function publishSelectMicDigital(micId) {
 
 function handleProcessorSelectedMicId(micId) {
   if (!micId) return;
+  if (processorSelectedMicId === micId) return;
   processorSelectedMicId = micId;
   ensureMicState(micId);
   publishMicState(micId);
@@ -135,13 +151,16 @@ function setupProcessorSubscriptions() {
     handleProcessorSelectedMicId(value);
   });
 
-  const sMicVol = crSubscribe('n', contracts.state.selectedMicVolume, (value) => {
+  const micVolumeSignal = contracts.state.micVolume;
+  const sMicVol = crSubscribe('n', micVolumeSignal, (value) => {
     if (!processorSelectedMicId) return;
     ensureMicState(processorSelectedMicId);
     const current = micAudioStates.get(processorSelectedMicId);
+    const nextVolume = Number(value);
+    if (current.volume === nextVolume) return;
     micAudioStates.set(processorSelectedMicId, {
       ...current,
-      volume: Number(value),
+      volume: nextVolume,
     });
     publishMicState(processorSelectedMicId);
   });
@@ -150,12 +169,64 @@ function setupProcessorSubscriptions() {
     if (!processorSelectedMicId) return;
     ensureMicState(processorSelectedMicId);
     const current = micAudioStates.get(processorSelectedMicId);
+    const nextMuted = !!value;
+    if (current.isMuted === nextMuted) return;
     micAudioStates.set(processorSelectedMicId, {
       ...current,
-      isMuted: !!value,
+      isMuted: nextMuted,
     });
     publishMicState(processorSelectedMicId);
   });
+
+  const sMasterVol = contracts.state.masterVolume
+    ? crSubscribe('n', contracts.state.masterVolume, (value) => {
+        const nextVolume = Number(value);
+        if (masterAudioState.volume === nextVolume) return;
+        masterAudioState = {
+          ...masterAudioState,
+          volume: nextVolume,
+        };
+        notifyMasterState();
+      })
+    : null;
+
+  const sMasterMute = contracts.state.masterMute
+    ? crSubscribe('b', contracts.state.masterMute, (value) => {
+        const nextMuted = !!value;
+        if (masterAudioState.isMuted === nextMuted) return;
+        masterAudioState = {
+          ...masterAudioState,
+          isMuted: nextMuted,
+        };
+        notifyMasterState();
+      })
+    : null;
+
+  const masterVolUpStateSignal = contracts.state.masterVolUpState;
+  const sMasterVolUp = masterVolUpStateSignal
+    ? crSubscribe('b', masterVolUpStateSignal, (value) => {
+        const nextVolUpActive = !!value;
+        if (masterAudioState.isVolUpActive === nextVolUpActive) return;
+        masterAudioState = {
+          ...masterAudioState,
+          isVolUpActive: nextVolUpActive,
+        };
+        notifyMasterState();
+      })
+    : null;
+
+  const masterVolDownStateSignal = contracts.state.masterVolDownState;
+  const sMasterVolDown = masterVolDownStateSignal
+    ? crSubscribe('b', masterVolDownStateSignal, (value) => {
+        const nextVolDownActive = !!value;
+        if (masterAudioState.isVolDownActive === nextVolDownActive) return;
+        masterAudioState = {
+          ...masterAudioState,
+          isVolDownActive: nextVolDownActive,
+        };
+        notifyMasterState();
+      })
+    : null;
 
   Object.entries(contracts.video?.displaySourceFbById ?? {}).forEach(([displayId, signalName]) => {
     const subscribeId = crSubscribe('n', signalName, (value) => {
@@ -168,8 +239,20 @@ function setupProcessorSubscriptions() {
     import.meta.hot.dispose(() => {
       crUnsubscribe('b', contracts.state.systemRunning, sSystem);
       crUnsubscribe('s', contracts.state.selectedMicId, sMicId);
-      crUnsubscribe('n', contracts.state.selectedMicVolume, sMicVol);
+      crUnsubscribe('n', micVolumeSignal, sMicVol);
       crUnsubscribe('b', contracts.state.selectedMicMute, sMicMute);
+      if (contracts.state.masterVolume) {
+        crUnsubscribe('n', contracts.state.masterVolume, sMasterVol);
+      }
+      if (contracts.state.masterMute) {
+        crUnsubscribe('b', contracts.state.masterMute, sMasterMute);
+      }
+      if (masterVolUpStateSignal) {
+        crUnsubscribe('b', masterVolUpStateSignal, sMasterVolUp);
+      }
+      if (masterVolDownStateSignal) {
+        crUnsubscribe('b', masterVolDownStateSignal, sMasterVolDown);
+      }
       videoRouteSubscriptionIds.forEach(({ signalName, subscribeId }) => {
         crUnsubscribe('n', signalName, subscribeId);
       });
@@ -271,6 +354,15 @@ export const crestronApi = {
       listeners.delete(callback);
     };
   },
+  subscribeMasterAudioState: (callback) => {
+    setupProcessorSubscriptions();
+    masterListeners.add(callback);
+    callback({ ...masterAudioState });
+
+    return () => {
+      masterListeners.delete(callback);
+    };
+  },
   requestMicAudioState: (micId) => {
     if (!micId) return;
     setupProcessorSubscriptions();
@@ -280,6 +372,10 @@ export const crestronApi = {
     publishSelectMicDigital(micId);
     handleProcessorSelectedMicId(micId);
     publishMicState(micId);
+  },
+  requestMasterAudioState: () => {
+    setupProcessorSubscriptions();
+    notifyMasterState();
   },
   ingestProcessorMicAudioState: (micId, state) => {
     if (!micId) return;
@@ -307,10 +403,33 @@ export const crestronApi = {
   setMicMute: ({ micId, isMuted }) => {
     if (!micId) return;
     setupProcessorSubscriptions();
+    ensureMicState(micId);
+
+    const current = micAudioStates.get(micId);
+    micAudioStates.set(micId, {
+      ...current,
+      isMuted: !!isMuted,
+    });
+    publishMicState(micId);
+
     enqueueMicCommand(micId, {
       type: 'setMute',
       isMuted: !!isMuted,
     });
+  },
+  adjustMasterVolume: ({ delta }) => {
+    if (!delta) return;
+    setupProcessorSubscriptions();
+
+    if (delta > 0) {
+      crPulseDigital(contracts.event.masterVolumeUp);
+    } else if (delta < 0) {
+      crPulseDigital(contracts.event.masterVolumeDown);
+    }
+  },
+  setMasterMute: ({ isMuted }) => {
+    setupProcessorSubscriptions();
+    crPulseDigital(contracts.event.masterVolumeMute);
   },
   subscribeVideoRoutes: (callback) => {
     setupProcessorSubscriptions();

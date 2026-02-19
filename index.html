@@ -6,41 +6,56 @@
     <title>buh</title>
     <script>
       // Prevent early native join callbacks from throwing before CrComLib is ready.
-      (function () {
-        const queue = [];
-        const forward = (method, args) => {
-          const lib = window.CrComLib;
+      var bridgeReceiveIntegerFromNative;
+      var bridgeReceiveBooleanFromNative;
+      var bridgeReceiveStringFromNative;
+      var bridgeReceiveObjectFromNative;
+
+      (function (global) {
+        var queue = [];
+
+        function forward(method, args) {
+          var lib = global.CrComLib;
           if (lib && typeof lib[method] === 'function') {
             lib[method].apply(lib, args);
             return true;
           }
           return false;
-        };
-        const makeBridgeFn = (method) =>
-          function () {
-            const args = Array.prototype.slice.call(arguments);
-            if (!forward(method, args)) queue.push({ method, args });
+        }
+
+        function makeBridgeFn(method) {
+          return function () {
+            var args = Array.prototype.slice.call(arguments);
+            if (!forward(method, args)) {
+              queue.push({ method: method, args: args });
+            }
           };
+        }
 
-        window.bridgeReceiveIntegerFromNative = makeBridgeFn('bridgeReceiveIntegerFromNative');
-        window.bridgeReceiveBooleanFromNative = makeBridgeFn('bridgeReceiveBooleanFromNative');
-        window.bridgeReceiveStringFromNative = makeBridgeFn('bridgeReceiveStringFromNative');
-        window.bridgeReceiveObjectFromNative = makeBridgeFn('bridgeReceiveObjectFromNative');
-
-        const replay = () => {
-          if (!window.CrComLib) return;
+        function replay() {
+          if (!global.CrComLib) return;
           while (queue.length) {
-            const item = queue.shift();
+            var item = queue.shift();
             forward(item.method, item.args);
           }
-        };
+        }
 
-        const replayTimer = window.setInterval(() => {
-          if (!window.CrComLib) return;
+        bridgeReceiveIntegerFromNative = makeBridgeFn('bridgeReceiveIntegerFromNative');
+        bridgeReceiveBooleanFromNative = makeBridgeFn('bridgeReceiveBooleanFromNative');
+        bridgeReceiveStringFromNative = makeBridgeFn('bridgeReceiveStringFromNative');
+        bridgeReceiveObjectFromNative = makeBridgeFn('bridgeReceiveObjectFromNative');
+
+        global.bridgeReceiveIntegerFromNative = bridgeReceiveIntegerFromNative;
+        global.bridgeReceiveBooleanFromNative = bridgeReceiveBooleanFromNative;
+        global.bridgeReceiveStringFromNative = bridgeReceiveStringFromNative;
+        global.bridgeReceiveObjectFromNative = bridgeReceiveObjectFromNative;
+
+        var replayTimer = global.setInterval(function () {
+          if (!global.CrComLib) return;
           replay();
-          window.clearInterval(replayTimer);
+          global.clearInterval(replayTimer);
         }, 50);
-      })();
+      })(typeof globalThis !== 'undefined' ? globalThis : window);
     </script>
   </head>
   <body>

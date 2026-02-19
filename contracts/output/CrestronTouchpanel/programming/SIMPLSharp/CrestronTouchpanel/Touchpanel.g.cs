@@ -10,39 +10,47 @@ namespace CrestronTouchpanel
     {
         object UserObject { get; set; }
 
-        event EventHandler<UIEventArgs> StartSystemEvent;
-        event EventHandler<UIEventArgs> StopSystemEvent;
-        event EventHandler<UIEventArgs> SetMuteEvent;
-        event EventHandler<UIEventArgs> VolumeUpEvent;
-        event EventHandler<UIEventArgs> VolumeDownEvent;
-        event EventHandler<UIEventArgs> SelectMic1Event;
-        event EventHandler<UIEventArgs> SelectMic2Event;
-        event EventHandler<UIEventArgs> SelectMic3Event;
-        event EventHandler<UIEventArgs> SelectMic4Event;
-        event EventHandler<UIEventArgs> SelectMic5Event;
-        event EventHandler<UIEventArgs> SelectedMicVolumeEvent;
+        event EventHandler<UIEventArgs> StartSystemBtn;
+        event EventHandler<UIEventArgs> StopSystemBtn;
+        event EventHandler<UIEventArgs> SetMuteBtn;
+        event EventHandler<UIEventArgs> VolumeUpBtn;
+        event EventHandler<UIEventArgs> VolumeDownBtn;
+        event EventHandler<UIEventArgs> MasterVolUpBtn;
+        event EventHandler<UIEventArgs> MasterVolDownBtn;
+        event EventHandler<UIEventArgs> MasterVolMuteBtn;
+        event EventHandler<UIEventArgs> SelectMic1Btn;
+        event EventHandler<UIEventArgs> SelectMic2Btn;
+        event EventHandler<UIEventArgs> SelectMic3Btn;
+        event EventHandler<UIEventArgs> SelectMic4Btn;
+        event EventHandler<UIEventArgs> SelectMic5Btn;
+        event EventHandler<UIEventArgs> SelectedMicVolumeBtn;
+        event EventHandler<UIEventArgs> MasterVolumeBtn;
         event EventHandler<UIEventArgs> Display1SourcePress;
         event EventHandler<UIEventArgs> Display2SourcePress;
         event EventHandler<UIEventArgs> Display3SourcePress;
         event EventHandler<UIEventArgs> Display4SourcePress;
-        event EventHandler<UIEventArgs> SelectedMicIdEvent;
+        event EventHandler<UIEventArgs> SelectedMicIdBtn;
 
-        void SystemRunningState(TouchpanelBoolInputSigDelegate callback);
-        void StopSystemState(TouchpanelBoolInputSigDelegate callback);
-        void SelectedMicMuteState(TouchpanelBoolInputSigDelegate callback);
-        void VolumeUpState(TouchpanelBoolInputSigDelegate callback);
-        void VolumeDownState(TouchpanelBoolInputSigDelegate callback);
-        void SelectMic1State(TouchpanelBoolInputSigDelegate callback);
-        void SelectMic2State(TouchpanelBoolInputSigDelegate callback);
-        void SelectMic3State(TouchpanelBoolInputSigDelegate callback);
-        void SelectMic4State(TouchpanelBoolInputSigDelegate callback);
-        void SelectMic5State(TouchpanelBoolInputSigDelegate callback);
-        void SelectedMicVolumeState(TouchpanelUShortInputSigDelegate callback);
+        void SystemRunningFb(TouchpanelBoolInputSigDelegate callback);
+        void StopSystemFb(TouchpanelBoolInputSigDelegate callback);
+        void SelectedMicMuteFb(TouchpanelBoolInputSigDelegate callback);
+        void VolumeUpFb(TouchpanelBoolInputSigDelegate callback);
+        void VolumeDownFb(TouchpanelBoolInputSigDelegate callback);
+        void MasterVolUpFb(TouchpanelBoolInputSigDelegate callback);
+        void MasterVolDownFb(TouchpanelBoolInputSigDelegate callback);
+        void MasterVolMuteFb(TouchpanelBoolInputSigDelegate callback);
+        void SelectMic1Fb(TouchpanelBoolInputSigDelegate callback);
+        void SelectMic2Fb(TouchpanelBoolInputSigDelegate callback);
+        void SelectMic3Fb(TouchpanelBoolInputSigDelegate callback);
+        void SelectMic4Fb(TouchpanelBoolInputSigDelegate callback);
+        void SelectMic5Fb(TouchpanelBoolInputSigDelegate callback);
+        void SelectedMicVolumeFb(TouchpanelUShortInputSigDelegate callback);
+        void MasterVolumeFb(TouchpanelUShortInputSigDelegate callback);
         void Display1SourceFb(TouchpanelUShortInputSigDelegate callback);
         void Display2SourceFb(TouchpanelUShortInputSigDelegate callback);
         void Display3SourceFb(TouchpanelUShortInputSigDelegate callback);
         void Display4SourceFb(TouchpanelUShortInputSigDelegate callback);
-        void SelectedMicIdState(TouchpanelStringInputSigDelegate callback);
+        void SelectedMicIdFb(TouchpanelStringInputSigDelegate callback);
 
     }
 
@@ -71,47 +79,55 @@ namespace CrestronTouchpanel
         {
             internal static class Booleans
             {
-                public const uint StartSystemEvent = 1;
-                public const uint StopSystemEvent = 2;
-                public const uint SetMuteEvent = 3;
-                public const uint VolumeUpEvent = 4;
-                public const uint VolumeDownEvent = 5;
-                public const uint SelectMic1Event = 6;
-                public const uint SelectMic2Event = 7;
-                public const uint SelectMic3Event = 8;
-                public const uint SelectMic4Event = 9;
-                public const uint SelectMic5Event = 10;
+                public const uint StartSystemBtn = 1;
+                public const uint StopSystemBtn = 2;
+                public const uint SetMuteBtn = 3;
+                public const uint VolumeUpBtn = 4;
+                public const uint VolumeDownBtn = 5;
+                public const uint MasterVolUpBtn = 6;
+                public const uint MasterVolDownBtn = 7;
+                public const uint MasterVolMuteBtn = 8;
+                public const uint SelectMic1Btn = 9;
+                public const uint SelectMic2Btn = 10;
+                public const uint SelectMic3Btn = 11;
+                public const uint SelectMic4Btn = 12;
+                public const uint SelectMic5Btn = 13;
 
-                public const uint SystemRunningState = 1;
-                public const uint StopSystemState = 2;
-                public const uint SelectedMicMuteState = 3;
-                public const uint VolumeUpState = 4;
-                public const uint VolumeDownState = 5;
-                public const uint SelectMic1State = 6;
-                public const uint SelectMic2State = 7;
-                public const uint SelectMic3State = 8;
-                public const uint SelectMic4State = 9;
-                public const uint SelectMic5State = 10;
+                public const uint SystemRunningFb = 1;
+                public const uint StopSystemFb = 2;
+                public const uint SelectedMicMuteFb = 3;
+                public const uint VolumeUpFb = 4;
+                public const uint VolumeDownFb = 5;
+                public const uint MasterVolUpFb = 6;
+                public const uint MasterVolDownFb = 7;
+                public const uint MasterVolMuteFb = 8;
+                public const uint SelectMic1Fb = 9;
+                public const uint SelectMic2Fb = 10;
+                public const uint SelectMic3Fb = 11;
+                public const uint SelectMic4Fb = 12;
+                public const uint SelectMic5Fb = 13;
             }
             internal static class Numerics
             {
-                public const uint SelectedMicVolumeEvent = 1;
-                public const uint Display1SourcePress = 2;
-                public const uint Display2SourcePress = 3;
-                public const uint Display3SourcePress = 4;
-                public const uint Display4SourcePress = 5;
+                public const uint SelectedMicVolumeBtn = 1;
+                public const uint MasterVolumeBtn = 2;
+                public const uint Display1SourcePress = 3;
+                public const uint Display2SourcePress = 4;
+                public const uint Display3SourcePress = 5;
+                public const uint Display4SourcePress = 6;
 
-                public const uint SelectedMicVolumeState = 1;
-                public const uint Display1SourceFb = 2;
-                public const uint Display2SourceFb = 3;
-                public const uint Display3SourceFb = 4;
-                public const uint Display4SourceFb = 5;
+                public const uint SelectedMicVolumeFb = 1;
+                public const uint MasterVolumeFb = 2;
+                public const uint Display1SourceFb = 3;
+                public const uint Display2SourceFb = 4;
+                public const uint Display3SourceFb = 5;
+                public const uint Display4SourceFb = 6;
             }
             internal static class Strings
             {
-                public const uint SelectedMicIdEvent = 1;
+                public const uint SelectedMicIdBtn = 1;
 
-                public const uint SelectedMicIdState = 1;
+                public const uint SelectedMicIdFb = 1;
             }
         }
 
@@ -131,22 +147,26 @@ namespace CrestronTouchpanel
  
             _devices = new List<BasicTriListWithSmartObject>(); 
  
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.StartSystemEvent, onStartSystemEvent);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.StopSystemEvent, onStopSystemEvent);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SetMuteEvent, onSetMuteEvent);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.VolumeUpEvent, onVolumeUpEvent);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.VolumeDownEvent, onVolumeDownEvent);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic1Event, onSelectMic1Event);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic2Event, onSelectMic2Event);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic3Event, onSelectMic3Event);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic4Event, onSelectMic4Event);
-            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic5Event, onSelectMic5Event);
-            ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.SelectedMicVolumeEvent, onSelectedMicVolumeEvent);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.StartSystemBtn, onStartSystemBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.StopSystemBtn, onStopSystemBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SetMuteBtn, onSetMuteBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.VolumeUpBtn, onVolumeUpBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.VolumeDownBtn, onVolumeDownBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.MasterVolUpBtn, onMasterVolUpBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.MasterVolDownBtn, onMasterVolDownBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.MasterVolMuteBtn, onMasterVolMuteBtn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic1Btn, onSelectMic1Btn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic2Btn, onSelectMic2Btn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic3Btn, onSelectMic3Btn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic4Btn, onSelectMic4Btn);
+            ComponentMediator.ConfigureBooleanEvent(controlJoinId, Joins.Booleans.SelectMic5Btn, onSelectMic5Btn);
+            ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.SelectedMicVolumeBtn, onSelectedMicVolumeBtn);
+            ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.MasterVolumeBtn, onMasterVolumeBtn);
             ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.Display1SourcePress, onDisplay1SourcePress);
             ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.Display2SourcePress, onDisplay2SourcePress);
             ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.Display3SourcePress, onDisplay3SourcePress);
             ComponentMediator.ConfigureNumericEvent(controlJoinId, Joins.Numerics.Display4SourcePress, onDisplay4SourcePress);
-            ComponentMediator.ConfigureStringEvent(controlJoinId, Joins.Strings.SelectedMicIdEvent, onSelectedMicIdEvent);
+            ComponentMediator.ConfigureStringEvent(controlJoinId, Joins.Strings.SelectedMicIdBtn, onSelectedMicIdBtn);
 
         }
 
@@ -166,171 +186,227 @@ namespace CrestronTouchpanel
 
         #region CH5 Contract
 
-        public event EventHandler<UIEventArgs> StartSystemEvent;
-        private void onStartSystemEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> StartSystemBtn;
+        private void onStartSystemBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = StartSystemEvent;
+            EventHandler<UIEventArgs> handler = StartSystemBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> StopSystemEvent;
-        private void onStopSystemEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> StopSystemBtn;
+        private void onStopSystemBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = StopSystemEvent;
+            EventHandler<UIEventArgs> handler = StopSystemBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SetMuteEvent;
-        private void onSetMuteEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> SetMuteBtn;
+        private void onSetMuteBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SetMuteEvent;
+            EventHandler<UIEventArgs> handler = SetMuteBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> VolumeUpEvent;
-        private void onVolumeUpEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> VolumeUpBtn;
+        private void onVolumeUpBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = VolumeUpEvent;
+            EventHandler<UIEventArgs> handler = VolumeUpBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> VolumeDownEvent;
-        private void onVolumeDownEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> VolumeDownBtn;
+        private void onVolumeDownBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = VolumeDownEvent;
+            EventHandler<UIEventArgs> handler = VolumeDownBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SelectMic1Event;
-        private void onSelectMic1Event(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> MasterVolUpBtn;
+        private void onMasterVolUpBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectMic1Event;
+            EventHandler<UIEventArgs> handler = MasterVolUpBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SelectMic2Event;
-        private void onSelectMic2Event(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> MasterVolDownBtn;
+        private void onMasterVolDownBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectMic2Event;
+            EventHandler<UIEventArgs> handler = MasterVolDownBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SelectMic3Event;
-        private void onSelectMic3Event(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> MasterVolMuteBtn;
+        private void onMasterVolMuteBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectMic3Event;
+            EventHandler<UIEventArgs> handler = MasterVolMuteBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SelectMic4Event;
-        private void onSelectMic4Event(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> SelectMic1Btn;
+        private void onSelectMic1Btn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectMic4Event;
+            EventHandler<UIEventArgs> handler = SelectMic1Btn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
-        public event EventHandler<UIEventArgs> SelectMic5Event;
-        private void onSelectMic5Event(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> SelectMic2Btn;
+        private void onSelectMic2Btn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectMic5Event;
+            EventHandler<UIEventArgs> handler = SelectMic2Btn;
+            if (handler != null)
+                handler(this, UIEventArgs.CreateEventArgs(eventArgs));
+        }
+
+        public event EventHandler<UIEventArgs> SelectMic3Btn;
+        private void onSelectMic3Btn(SmartObjectEventArgs eventArgs)
+        {
+            EventHandler<UIEventArgs> handler = SelectMic3Btn;
+            if (handler != null)
+                handler(this, UIEventArgs.CreateEventArgs(eventArgs));
+        }
+
+        public event EventHandler<UIEventArgs> SelectMic4Btn;
+        private void onSelectMic4Btn(SmartObjectEventArgs eventArgs)
+        {
+            EventHandler<UIEventArgs> handler = SelectMic4Btn;
+            if (handler != null)
+                handler(this, UIEventArgs.CreateEventArgs(eventArgs));
+        }
+
+        public event EventHandler<UIEventArgs> SelectMic5Btn;
+        private void onSelectMic5Btn(SmartObjectEventArgs eventArgs)
+        {
+            EventHandler<UIEventArgs> handler = SelectMic5Btn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
 
-        public void SystemRunningState(TouchpanelBoolInputSigDelegate callback)
+        public void SystemRunningFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SystemRunningState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SystemRunningFb], this);
             }
         }
 
-        public void StopSystemState(TouchpanelBoolInputSigDelegate callback)
+        public void StopSystemFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.StopSystemState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.StopSystemFb], this);
             }
         }
 
-        public void SelectedMicMuteState(TouchpanelBoolInputSigDelegate callback)
+        public void SelectedMicMuteFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectedMicMuteState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectedMicMuteFb], this);
             }
         }
 
-        public void VolumeUpState(TouchpanelBoolInputSigDelegate callback)
+        public void VolumeUpFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.VolumeUpState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.VolumeUpFb], this);
             }
         }
 
-        public void VolumeDownState(TouchpanelBoolInputSigDelegate callback)
+        public void VolumeDownFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.VolumeDownState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.VolumeDownFb], this);
             }
         }
 
-        public void SelectMic1State(TouchpanelBoolInputSigDelegate callback)
+        public void MasterVolUpFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic1State], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.MasterVolUpFb], this);
             }
         }
 
-        public void SelectMic2State(TouchpanelBoolInputSigDelegate callback)
+        public void MasterVolDownFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic2State], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.MasterVolDownFb], this);
             }
         }
 
-        public void SelectMic3State(TouchpanelBoolInputSigDelegate callback)
+        public void MasterVolMuteFb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic3State], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.MasterVolMuteFb], this);
             }
         }
 
-        public void SelectMic4State(TouchpanelBoolInputSigDelegate callback)
+        public void SelectMic1Fb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic4State], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic1Fb], this);
             }
         }
 
-        public void SelectMic5State(TouchpanelBoolInputSigDelegate callback)
+        public void SelectMic2Fb(TouchpanelBoolInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic5State], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic2Fb], this);
             }
         }
 
-        public event EventHandler<UIEventArgs> SelectedMicVolumeEvent;
-        private void onSelectedMicVolumeEvent(SmartObjectEventArgs eventArgs)
+        public void SelectMic3Fb(TouchpanelBoolInputSigDelegate callback)
         {
-            EventHandler<UIEventArgs> handler = SelectedMicVolumeEvent;
+            for (int index = 0; index < Devices.Count; index++)
+            {
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic3Fb], this);
+            }
+        }
+
+        public void SelectMic4Fb(TouchpanelBoolInputSigDelegate callback)
+        {
+            for (int index = 0; index < Devices.Count; index++)
+            {
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic4Fb], this);
+            }
+        }
+
+        public void SelectMic5Fb(TouchpanelBoolInputSigDelegate callback)
+        {
+            for (int index = 0; index < Devices.Count; index++)
+            {
+                callback(Devices[index].SmartObjects[ControlJoinId].BooleanInput[Joins.Booleans.SelectMic5Fb], this);
+            }
+        }
+
+        public event EventHandler<UIEventArgs> SelectedMicVolumeBtn;
+        private void onSelectedMicVolumeBtn(SmartObjectEventArgs eventArgs)
+        {
+            EventHandler<UIEventArgs> handler = SelectedMicVolumeBtn;
+            if (handler != null)
+                handler(this, UIEventArgs.CreateEventArgs(eventArgs));
+        }
+
+        public event EventHandler<UIEventArgs> MasterVolumeBtn;
+        private void onMasterVolumeBtn(SmartObjectEventArgs eventArgs)
+        {
+            EventHandler<UIEventArgs> handler = MasterVolumeBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
@@ -368,11 +444,19 @@ namespace CrestronTouchpanel
         }
 
 
-        public void SelectedMicVolumeState(TouchpanelUShortInputSigDelegate callback)
+        public void SelectedMicVolumeFb(TouchpanelUShortInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].UShortInput[Joins.Numerics.SelectedMicVolumeState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].UShortInput[Joins.Numerics.SelectedMicVolumeFb], this);
+            }
+        }
+
+        public void MasterVolumeFb(TouchpanelUShortInputSigDelegate callback)
+        {
+            for (int index = 0; index < Devices.Count; index++)
+            {
+                callback(Devices[index].SmartObjects[ControlJoinId].UShortInput[Joins.Numerics.MasterVolumeFb], this);
             }
         }
 
@@ -408,20 +492,20 @@ namespace CrestronTouchpanel
             }
         }
 
-        public event EventHandler<UIEventArgs> SelectedMicIdEvent;
-        private void onSelectedMicIdEvent(SmartObjectEventArgs eventArgs)
+        public event EventHandler<UIEventArgs> SelectedMicIdBtn;
+        private void onSelectedMicIdBtn(SmartObjectEventArgs eventArgs)
         {
-            EventHandler<UIEventArgs> handler = SelectedMicIdEvent;
+            EventHandler<UIEventArgs> handler = SelectedMicIdBtn;
             if (handler != null)
                 handler(this, UIEventArgs.CreateEventArgs(eventArgs));
         }
 
 
-        public void SelectedMicIdState(TouchpanelStringInputSigDelegate callback)
+        public void SelectedMicIdFb(TouchpanelStringInputSigDelegate callback)
         {
             for (int index = 0; index < Devices.Count; index++)
             {
-                callback(Devices[index].SmartObjects[ControlJoinId].StringInput[Joins.Strings.SelectedMicIdState], this);
+                callback(Devices[index].SmartObjects[ControlJoinId].StringInput[Joins.Strings.SelectedMicIdFb], this);
             }
         }
 
@@ -452,22 +536,26 @@ namespace CrestronTouchpanel
 
             IsDisposed = true;
 
-            StartSystemEvent = null;
-            StopSystemEvent = null;
-            SetMuteEvent = null;
-            VolumeUpEvent = null;
-            VolumeDownEvent = null;
-            SelectMic1Event = null;
-            SelectMic2Event = null;
-            SelectMic3Event = null;
-            SelectMic4Event = null;
-            SelectMic5Event = null;
-            SelectedMicVolumeEvent = null;
+            StartSystemBtn = null;
+            StopSystemBtn = null;
+            SetMuteBtn = null;
+            VolumeUpBtn = null;
+            VolumeDownBtn = null;
+            MasterVolUpBtn = null;
+            MasterVolDownBtn = null;
+            MasterVolMuteBtn = null;
+            SelectMic1Btn = null;
+            SelectMic2Btn = null;
+            SelectMic3Btn = null;
+            SelectMic4Btn = null;
+            SelectMic5Btn = null;
+            SelectedMicVolumeBtn = null;
+            MasterVolumeBtn = null;
             Display1SourcePress = null;
             Display2SourcePress = null;
             Display3SourcePress = null;
             Display4SourcePress = null;
-            SelectedMicIdEvent = null;
+            SelectedMicIdBtn = null;
         }
 
         #endregion

@@ -15,12 +15,30 @@ function clamp(num, min, max) {
   return Math.max(min, Math.min(max, num));
 }
 
+function getSafeLocalStorage() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const storage = window.localStorage;
+    if (
+      !storage ||
+      typeof storage.getItem !== 'function' ||
+      typeof storage.setItem !== 'function'
+    ) {
+      return null;
+    }
+    return storage;
+  } catch (error) {
+    return null;
+  }
+}
+
 function getInitialTheme() {
   if (typeof window === 'undefined') {
     return 'dark';
   }
 
-  const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  const storage = getSafeLocalStorage();
+  const storedTheme = storage ? storage.getItem(THEME_STORAGE_KEY) : null;
   if (storedTheme === 'light' || storedTheme === 'dark') {
     return storedTheme;
   }
@@ -28,9 +46,37 @@ function getInitialTheme() {
   return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
 }
 
+function isNativeTouchpanelRuntime() {
+  if (typeof window === 'undefined') return false;
+  const protocol = window.location?.protocol ?? '';
+  const pathname = window.location?.pathname ?? '';
+  const userAgent = window.navigator?.userAgent?.toLowerCase?.() ?? '';
+  return (
+    protocol === 'file:' ||
+    pathname.includes('/ROMDISK/romdisk/user/display') ||
+    userAgent.includes('crestron')
+  );
+}
+
+function hasSameMicAudioState(currentState, nextState) {
+  return (
+    currentState?.volume === nextState?.volume && currentState?.isMuted === nextState?.isMuted
+  );
+}
+
+function hasSameMasterAudioState(currentState, nextState) {
+  return (
+    currentState?.volume === nextState?.volume &&
+    currentState?.isMuted === nextState?.isMuted &&
+    currentState?.isVolUpActive === nextState?.isVolUpActive &&
+    currentState?.isVolDownActive === nextState?.isVolDownActive
+  );
+}
+
 export default function App() {
   const { home, audio, video } = touchpanelConfig;
   const [theme, setTheme] = useState(getInitialTheme);
+  const isTouchpanelRuntime = isNativeTouchpanelRuntime();
 
   const [isSystemRunning, setIsSystemRunning] = useState(false);
   const [selectedMicId, setSelectedMicId] = useState(audio.microphones[0]?.id ?? null);
@@ -45,6 +91,12 @@ export default function App() {
       ])
     )
   );
+  const [masterAudioState, setMasterAudioState] = useState(() => ({
+    volume: clamp(audio.defaultVolume, audio.minVolume, audio.maxVolume),
+    isMuted: false,
+    isVolUpActive: false,
+    isVolDownActive: false,
+  }));
 
   const [routes, setRoutes] = useState(() =>
     Object.fromEntries(video.displays.map((display) => [display.id, null]))
@@ -55,7 +107,9 @@ export default function App() {
 
   useEffect(() => {
     const unsubscribe = crestronApi.subscribeSystemState((nextState) => {
-      setIsSystemRunning(nextState);
+      setIsSystemRunning((currentState) =>
+        currentState === nextState ? currentState : nextState
+      );
     });
 
     crestronApi.requestSystemState();
@@ -65,16 +119,21 @@ export default function App() {
   useEffect(() => {
     const unsubscribers = audio.microphones.map((mic) =>
       crestronApi.subscribeMicAudioState(mic.id, (nextState) => {
-        setMicAudioState((current) => ({
-          ...current,
-          [mic.id]: nextState,
-        }));
+        setMicAudioState((current) =>
+          hasSameMicAudioState(current[mic.id], nextState)
+            ? current
+            : {
+                ...current,
+                [mic.id]: nextState,
+              }
+        );
       })
     );
 
-    audio.microphones.forEach((mic) => {
-      crestronApi.requestMicAudioState(mic.id);
-    });
+    const initialMicId = selectedMicId ?? audio.microphones[0]?.id ?? null;
+    if (initialMicId) {
+      crestronApi.requestMicAudioState(initialMicId);
+    }
 
     return () => {
       unsubscribers.forEach((unsubscribe) => unsubscribe());
@@ -82,11 +141,31 @@ export default function App() {
   }, [audio.microphones]);
 
   useEffect(() => {
+    const unsubscribe = crestronApi.subscribeMasterAudioState((nextState) => {
+      setMasterAudioState((currentState) =>
+        hasSameMasterAudioState(currentState, nextState) ? currentState : nextState
+      );
+    });
+
+    crestronApi.requestMasterAudioState();
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
     const unsubscribe = crestronApi.subscribeVideoRoutes((nextRoutes) => {
-      setRoutes((currentRoutes) => ({
-        ...currentRoutes,
-        ...nextRoutes,
-      }));
+      setRoutes((currentRoutes) => {
+        let changed = false;
+        const mergedRoutes = { ...currentRoutes };
+
+        Object.entries(nextRoutes).forEach(([displayId, sourceId]) => {
+          if (mergedRoutes[displayId] !== sourceId) {
+            mergedRoutes[displayId] = sourceId;
+            changed = true;
+          }
+        });
+
+        return changed ? mergedRoutes : currentRoutes;
+      });
     });
 
     crestronApi.requestVideoRoutes();
@@ -96,7 +175,10 @@ export default function App() {
   useEffect(() => {
     if (typeof document === 'undefined') return;
     document.documentElement.setAttribute('data-theme', theme);
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    const storage = getSafeLocalStorage();
+    if (storage) {
+      storage.setItem(THEME_STORAGE_KEY, theme);
+    }
   }, [theme]);
 
   const handleStartSystem = () => {
@@ -143,6 +225,29 @@ export default function App() {
     });
   };
 
+  const handleMasterVolumeUp = () => {
+    crestronApi.adjustMasterVolume({
+      delta: volumeStep,
+      min: audio.minVolume,
+      max: audio.maxVolume,
+    });
+  };
+
+  const handleMasterVolumeDown = () => {
+    crestronApi.adjustMasterVolume({
+      delta: -volumeStep,
+      min: audio.minVolume,
+      max: audio.maxVolume,
+    });
+  };
+
+  const handleToggleMasterMute = () => {
+    const nextMuted = !(masterAudioState?.isMuted ?? false);
+    crestronApi.setMasterMute({
+      isMuted: nextMuted,
+    });
+  };
+
   const selectedMicAudioState = selectedMicId
     ? micAudioState[selectedMicId] ?? {
         volume: clamp(audio.defaultVolume, audio.minVolume, audio.maxVolume),
@@ -154,11 +259,37 @@ export default function App() {
       };
 
   const handleRoute = (sourceId, displayId) => {
-    setRoutes((currentRoutes) => ({
-      ...currentRoutes,
-      [displayId]: sourceId,
-    }));
+    setRoutes((currentRoutes) =>
+      currentRoutes[displayId] === sourceId
+        ? currentRoutes
+        : {
+            ...currentRoutes,
+            [displayId]: sourceId,
+          }
+    );
     crestronApi.routeSourceToDisplay({ sourceId, displayId });
+  };
+
+  const handleRouteAll = (sourceId) => {
+    if (!sourceId) return;
+
+    setRoutes((currentRoutes) => {
+      let changed = false;
+      const nextRoutes = { ...currentRoutes };
+
+      video.displays.forEach((display) => {
+        if (nextRoutes[display.id] !== sourceId) {
+          nextRoutes[display.id] = sourceId;
+          changed = true;
+        }
+      });
+
+      return changed ? nextRoutes : currentRoutes;
+    });
+
+    video.displays.forEach((display) => {
+      crestronApi.routeSourceToDisplay({ sourceId, displayId: display.id });
+    });
   };
 
   const normalizedConfig = useMemo(
@@ -175,7 +306,14 @@ export default function App() {
   };
 
   return (
-    <div className="app-shell">
+    <div
+      className={`app-shell ${isSystemRunning ? 'system-running' : 'system-stopped'} ${
+        isTouchpanelRuntime ? 'runtime-touchpanel' : ''
+      }`}
+    >
+      <div className="app-glow app-glow-a" aria-hidden="true" />
+      <div className="app-glow app-glow-b" aria-hidden="true" />
+      <div className="app-noise" aria-hidden="true" />
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
       <main className="main-content">
         {connectionStatus.showBanner ? (
@@ -208,13 +346,21 @@ export default function App() {
                 microphones={normalizedConfig.microphones}
                 selectedMicId={selectedMicId}
                 onSelectMic={handleMicSelect}
-                volume={selectedMicAudioState.volume}
+                micVolume={selectedMicAudioState.volume}
                 min={audio.minVolume}
                 max={audio.maxVolume}
-                onVolDown={handleVolumeDown}
-                onVolUp={handleVolumeUp}
-                isMuted={selectedMicAudioState.isMuted}
-                onToggleMute={handleToggleMute}
+                unityGainPoint={audio.unityGainPoint ?? 89}
+                onMicVolDown={handleVolumeDown}
+                onMicVolUp={handleVolumeUp}
+                micIsMuted={selectedMicAudioState.isMuted}
+                onToggleMicMute={handleToggleMute}
+                masterVolume={masterAudioState.volume}
+                onMasterVolDown={handleMasterVolumeDown}
+                onMasterVolUp={handleMasterVolumeUp}
+                masterIsMuted={masterAudioState.isMuted}
+                masterVolUpActive={masterAudioState.isVolUpActive}
+                masterVolDownActive={masterAudioState.isVolDownActive}
+                onToggleMasterMute={handleToggleMasterMute}
               />
             }
           />
@@ -226,6 +372,7 @@ export default function App() {
                 sources={normalizedConfig.sources}
                 routes={routes}
                 onRoute={handleRoute}
+                onRouteAll={handleRouteAll}
               />
             }
           />

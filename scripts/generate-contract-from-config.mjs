@@ -19,45 +19,53 @@ const smartObjectId = 1;
 
 const stateSignals = {
   boolean: {
-    SystemRunningState: 1,
-    StopSystemState: 2,
-    SelectedMicMuteState: 3,
-    VolumeUpState: 4,
-    VolumeDownState: 5,
+    SystemRunningFb: 1,
+    StopSystemFb: 2,
+    SelectedMicMuteFb: 3,
+    VolumeUpFb: 4,
+    VolumeDownFb: 5,
+    MasterVolUpFb: 6,
+    MasterVolDownFb: 7,
+    MasterVolMuteFb: 8,
   },
   numeric: {
-    SelectedMicVolumeState: 1,
+    SelectedMicVolumeFb: 1,
+    MasterVolumeFb: 2,
   },
   string: {
-    SelectedMicIdState: 1,
+    SelectedMicIdFb: 1,
   },
 };
 
 const eventSignals = {
   boolean: {
-    StartSystemEvent: 1,
-    StopSystemEvent: 2,
-    SetMuteEvent: 3,
-    VolumeUpEvent: 4,
-    VolumeDownEvent: 5,
+    StartSystemBtn: 1,
+    StopSystemBtn: 2,
+    SetMuteBtn: 3,
+    VolumeUpBtn: 4,
+    VolumeDownBtn: 5,
+    MasterVolUpBtn: 6,
+    MasterVolDownBtn: 7,
+    MasterVolMuteBtn: 8,
   },
   numeric: {
-    SelectedMicVolumeEvent: 1,
+    SelectedMicVolumeBtn: 1,
+    MasterVolumeBtn: 2,
   },
   string: {
-    SelectedMicIdEvent: 1,
+    SelectedMicIdBtn: 1,
   },
 };
 
 for (let index = 0; index < micCount; index += 1) {
   const micNum = index + 1;
-  stateSignals.boolean[`SelectMic${micNum}State`] = 6 + index;
-  eventSignals.boolean[`SelectMic${micNum}Event`] = 6 + index;
+  stateSignals.boolean[`SelectMic${micNum}Fb`] = 9 + index;
+  eventSignals.boolean[`SelectMic${micNum}Btn`] = 9 + index;
 }
 
 for (let index = 0; index < displayCount; index += 1) {
   const displayNum = index + 1;
-  const joinId = 2 + index;
+  const joinId = 3 + index;
   stateSignals.numeric[`Display${displayNum}SourceFb`] = joinId;
   eventSignals.numeric[`Display${displayNum}SourcePress`] = joinId;
 }
@@ -103,19 +111,23 @@ const cse2j = {
 
 const componentId = '_ctcomponent';
 const pairs = [
-  { commandName: 'SystemRunningState', feedbackName: 'StartSystemEvent', dataType: 1 },
-  { commandName: 'StopSystemState', feedbackName: 'StopSystemEvent', dataType: 1 },
-  { commandName: 'SelectedMicMuteState', feedbackName: 'SetMuteEvent', dataType: 1 },
-  { commandName: 'VolumeUpState', feedbackName: 'VolumeUpEvent', dataType: 1 },
-  { commandName: 'VolumeDownState', feedbackName: 'VolumeDownEvent', dataType: 1 },
-  { commandName: 'SelectedMicVolumeState', feedbackName: 'SelectedMicVolumeEvent', dataType: 2 },
-  { commandName: 'SelectedMicIdState', feedbackName: 'SelectedMicIdEvent', dataType: 3 },
+  { commandName: 'SystemRunningFb', feedbackName: 'StartSystemBtn', dataType: 1 },
+  { commandName: 'StopSystemFb', feedbackName: 'StopSystemBtn', dataType: 1 },
+  { commandName: 'SelectedMicMuteFb', feedbackName: 'SetMuteBtn', dataType: 1 },
+  { commandName: 'VolumeUpFb', feedbackName: 'VolumeUpBtn', dataType: 1 },
+  { commandName: 'VolumeDownFb', feedbackName: 'VolumeDownBtn', dataType: 1 },
+  { commandName: 'MasterVolUpFb', feedbackName: 'MasterVolUpBtn', dataType: 1 },
+  { commandName: 'MasterVolDownFb', feedbackName: 'MasterVolDownBtn', dataType: 1 },
+  { commandName: 'MasterVolMuteFb', feedbackName: 'MasterVolMuteBtn', dataType: 1 },
+  { commandName: 'SelectedMicVolumeFb', feedbackName: 'SelectedMicVolumeBtn', dataType: 2 },
+  { commandName: 'MasterVolumeFb', feedbackName: 'MasterVolumeBtn', dataType: 2 },
+  { commandName: 'SelectedMicIdFb', feedbackName: 'SelectedMicIdBtn', dataType: 3 },
 ];
 
 for (let index = 0; index < micCount; index += 1) {
   pairs.push({
-    commandName: `SelectMic${index + 1}State`,
-    feedbackName: `SelectMic${index + 1}Event`,
+    commandName: `SelectMic${index + 1}Fb`,
+    feedbackName: `SelectMic${index + 1}Btn`,
     dataType: 1,
   });
 }

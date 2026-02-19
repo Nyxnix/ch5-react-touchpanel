@@ -3,7 +3,7 @@ import { touchpanelConfig } from './touchpanelConfig';
 const selectMicById = Object.fromEntries(
   (touchpanelConfig?.audio?.microphones ?? []).map((mic, index) => [
     mic.id,
-    `Touchpanel.SelectMic${index + 1}Event`,
+    `Touchpanel.SelectMic${index + 1}Btn`,
   ])
 );
 
@@ -28,24 +28,31 @@ const sourceIdByValue = Object.fromEntries(
 
 export const crestronConfig = {
   webXPanel: {
-    ipId: '0x03',
+    ipId: '0x04',
     host: '192.168.1.59',
     roomId: '',
     authToken: '',
   },
   contracts: {
     state: {
-      systemRunning: 'Touchpanel.SystemRunningState',
-      selectedMicId: 'Touchpanel.SelectedMicIdState',
-      selectedMicVolume: 'Touchpanel.SelectedMicVolumeState',
-      selectedMicMute: 'Touchpanel.SelectedMicMuteState',
+      systemRunning: 'Touchpanel.SystemRunningFb',
+      selectedMicId: 'Touchpanel.SelectedMicIdFb',
+      micVolume: 'Touchpanel.SelectedMicVolumeFb',
+      masterVolume: 'Touchpanel.MasterVolumeFb',
+      masterVolUpState: 'Touchpanel.MasterVolUpFb',
+      masterVolDownState: 'Touchpanel.MasterVolDownFb',
+      masterMute: 'Touchpanel.MasterVolMuteFb',
+      selectedMicMute: 'Touchpanel.SelectedMicMuteFb',
     },
     event: {
-      startSystem: 'Touchpanel.StartSystemEvent',
-      stopSystem: 'Touchpanel.StopSystemEvent',
-      volumeUp: 'Touchpanel.VolumeUpEvent',
-      volumeDown: 'Touchpanel.VolumeDownEvent',
-      setMute: 'Touchpanel.SetMuteEvent',
+      startSystem: 'Touchpanel.StartSystemBtn',
+      stopSystem: 'Touchpanel.StopSystemBtn',
+      volumeUp: 'Touchpanel.VolumeUpBtn',
+      volumeDown: 'Touchpanel.VolumeDownBtn',
+      setMute: 'Touchpanel.SetMuteBtn',
+      masterVolumeUp: 'Touchpanel.MasterVolUpBtn',
+      masterVolumeDown: 'Touchpanel.MasterVolDownBtn',
+      masterVolumeMute: 'Touchpanel.MasterVolMuteBtn',
       selectMicById,
     },
     video: {
